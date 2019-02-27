@@ -1,8 +1,8 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-const grayBtn = document.querySelector('.poziom');
-const redBtn = document.querySelector('.pion');
+const startBtn = document.querySelector('.startBtn');
+const stopBtn = document.querySelector('.stopBtn');
 
 const bg = new Image();
 const one = new Image();
@@ -21,8 +21,11 @@ let twoY = 0;
 let stepX = 5;
 let stepY = 2;
 
+let pause = false;
 
 function draw() {
+    requestID = requestAnimationFrame(draw);
+
     ctx.clearRect(0,0,500,500);
 
     if(oneX < 0 || oneX > 400) {
@@ -40,7 +43,19 @@ function draw() {
     ctx.drawImage(one,oneX,oneY);
     ctx.drawImage(two,twoX,twoY);
 
-    requestAnimationFrame(draw);
+
 }
 
-draw();
+startBtn.addEventListener('click',function(){
+    pause = false;
+    if (pause === false){
+        requestAnimationFrame(draw);
+    }
+});
+
+stopBtn.addEventListener('click',function(){
+
+    cancelAnimationFrame(requestID);
+    pause = true;
+
+});
